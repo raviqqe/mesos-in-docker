@@ -1,0 +1,17 @@
+require_relative '../lib/lib'
+
+
+
+docker_tasks 'mesos-agent',
+             '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host' do
+  from 'raviqqe/mesos-common'
+
+  run 'echo docker,mesos > /etc/mesos-slave/containerizers'
+  run 'echo 5mins > /etc/mesos-slave/executor_registration_timeout'
+
+  run 'systemctl disable mesos-master'
+
+  ['mesos-slave', 'docker'].map do |service|
+    run "systemctl enable #{service}"
+  end
+end
