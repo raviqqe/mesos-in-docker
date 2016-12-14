@@ -3,7 +3,8 @@ require_relative '../config'
 
 
 
-docker_tasks 'mesos-master', '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro' do
+docker_tasks 'mesos-master',
+             ('--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro ' + DOCKER_HOSTS_OPTION) do
   from 'raviqqe/mesos-common'
 
   # mesos-master
