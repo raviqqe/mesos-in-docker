@@ -7,6 +7,8 @@ docker_tasks 'mesos-master',
              '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host' do
   from 'raviqqe/mesos-common'
 
+  run YUM_INSTALL, 'marathon chronos mesosphere-zookeeper'
+
   # mesos-master
 
   run "echo #{MASTERS.length} > /etc/mesos-master/quorum"

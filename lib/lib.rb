@@ -27,3 +27,6 @@ end.join ' '
 def ports_to_option ports
   ports.map{ |port| "-p #{port}:#{port}" }.join ' '
 end
+
+
+YUM_INSTALL = 'yum -y update && yum -y upgrade && yum -y install'
