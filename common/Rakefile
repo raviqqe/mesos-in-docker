@@ -1,0 +1,26 @@
+require_relative '../lib/lib'
+require_relative '../config'
+
+
+
+docker_tasks 'mesos-common' do
+  from 'centos:7'
+
+  env :container, :docker
+
+  run 'rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-3.noarch.rpm'
+  run 'yum -y install mesos marathon chronos docker mesosphere-zookeeper'
+
+  run "echo zk://#{MASTERS.map{ |h| "#{h}:2181" }.join ','}/mesos | tee /etc/mesos/zk"
+
+  run '(cd /lib/systemd/system/sysinit.target.wants && for f in *; do [ $f == systemd-tmpfiles-setup.service ] || rm -f $f; done) && \
+       rm -f /lib/systemd/system/multi-user.target.wants/* && \
+       rm -f /etc/systemd/system/*.wants/* && \
+       rm -f /lib/systemd/system/local-fs.target.wants/* && \
+       rm -f /lib/systemd/system/sockets.target.wants/*udev* && \
+       rm -f /lib/systemd/system/sockets.target.wants/*initctl* && \
+       rm -f /lib/systemd/system/basic.target.wants/* && \
+       rm -f /lib/systemd/system/anaconda.target.wants/*'
+
+  cmd '/usr/sbin/init'
+end
