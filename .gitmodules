@@ -1,0 +1,3 @@
+[submodule "lib/docker-rake-tasks"]
+	path = lib/docker-rake-tasks
+	url = https://github.com/raviqqe/docker-rake-tasks
