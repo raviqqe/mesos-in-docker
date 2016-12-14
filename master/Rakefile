@@ -1,0 +1,10 @@
+require_relative '../lib/lib'
+
+
+
+docker_tasks 'mesos-master' do
+  from 'centos:6'
+
+  run 'rpm -Uvh http://repos.mesosphere.com/el/6/noarch/RPMS/mesosphere-el-repo-6-2.noarch.rpm'
+  run 'yum -y install mesos marathon chronos'
+end
