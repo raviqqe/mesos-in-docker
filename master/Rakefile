@@ -6,5 +6,5 @@ docker_tasks 'mesos-master' do
   from 'centos:7'
 
   run 'rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-3.noarch.rpm'
-  run 'yum -y install mesos marathon chronos docker'
+  run 'yum -y install mesos marathon chronos docker mesosphere-zookeeper'
 end
