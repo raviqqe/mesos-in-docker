@@ -9,6 +9,7 @@ def docker_tasks name, run_options='', &block
       .create name, run_options, &block
 end
 
+
 def hostname_to_ip hostname
   Resolv::Hosts.new().getaddress hostname
 end
@@ -21,3 +22,8 @@ DOCKER_HOSTS_OPTION = [*MASTERS, *AGENTS].map(&method(:hostname_to_pair))
                                          .map do |h, ip|
   "--add-host #{h}:#{ip}"
 end.join ' '
+
+
+def ports_to_option ports
+  ports.map{ |port| "-p #{port}:#{port}" }.join ' '
+end
