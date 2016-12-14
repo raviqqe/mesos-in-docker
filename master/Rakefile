@@ -18,9 +18,15 @@ docker_tasks 'mesos-master', '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro' 
     "server.#{i + 1}=#{hostname}:2888:3888"
   end.join "\n"
 
-  zoo_cfg = 'zoo.cfg'
-  File.write zoo_cfg, zoo_cfg_content
-  copy zoo_cfg, "/etc/zookeeper/conf/#{zoo_cfg}"
+  servers = 'servers'
+  File.write servers, zoo_cfg_content
+  servers_dest = "/root/#{servers}"
+  copy servers, servers_dest
+
+  zookeeper_conf_dir = '/etc/zookeeper/conf'
+  zoo_cfg = "#{zookeeper_conf_dir}/zoo.cfg"
+  run "cp #{zookeeper_conf_dir}/zoo_sample.cfg #{zoo_cfg}"
+  run "cat #{servers_dest} >> #{zoo_cfg}"
 
   # systemd
 
