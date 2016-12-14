@@ -4,7 +4,7 @@ require_relative '../config'
 
 
 docker_tasks 'mesos-master',
-             ('--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro ' + DOCKER_HOSTS_OPTION) do
+             '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host' do
   from 'raviqqe/mesos-common'
 
   # mesos-master
@@ -36,6 +36,4 @@ docker_tasks 'mesos-master',
   ['mesos-master', 'zookeeper', 'marathon', 'chronos'].map do |service|
     run "systemctl enable #{service}"
   end
-
-  expose 2181, 4400, 5050, 8080, '2888-3888'
 end
