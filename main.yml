@@ -1,0 +1,13 @@
+- hosts: master
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - master
+
+- hosts: agent
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - agent

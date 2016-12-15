@@ -1,0 +1,7 @@
+- dnf: name={{ item }} state=latest
+  with_items:
+    - docker
+    - python
+    - python-docker-py
+    - python3
+    - python3-docker-py

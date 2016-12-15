@@ -1,0 +1,3 @@
+# - docker_image:
+#     name: ytoyama/mesos-master
+- shell: docker pull ytoyama/mesos-master
