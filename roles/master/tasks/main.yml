@@ -2,9 +2,6 @@
   with_indexed_items: "{{ groups['master'] }}"
   when: item.1 == "{{ inventory_hostname }}"
 
-- docker_image:
-    name: ytoyama/mesos-master
-
 - docker_container:
     name: mesos-master
     image:  ytoyama/mesos-master
@@ -14,3 +11,4 @@
     env:
       id: "{{ zk_id }}"
     recreate: yes
+    pull: yes
