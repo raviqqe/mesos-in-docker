@@ -13,3 +13,4 @@
     network_mode: host
     env:
       id: "{{ zk_id }}"
+    recreate: yes

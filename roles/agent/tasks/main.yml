@@ -7,3 +7,4 @@
     privileged: yes
     volumes: /sys/fs/cgroup:/sys/fs/cgroup:ro
     network_mode: host
+    recreate: yes
