@@ -3,8 +3,9 @@ require_relative '../config'
 
 
 
-docker_tasks 'mesos-master',
-             '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host' do
+docker_tasks \
+    'mesos-master',
+    '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host -e id=1' do
   from 'raviqqe/mesos-common'
 
   run YUM_INSTALL, 'marathon chronos mesosphere-zookeeper'
@@ -14,8 +15,6 @@ docker_tasks 'mesos-master',
   run "echo #{MASTERS.length} > /etc/mesos-master/quorum"
 
   # zookeeper
-
-  run "echo #{MASTERS.index(`hostname`.strip) + 1} > /var/lib/zookeeper/myid"
 
   zoo_cfg_content = MASTERS.map.with_index do |hostname, i|
     "server.#{i + 1}=#{hostname}:2888:3888"
@@ -38,4 +37,6 @@ docker_tasks 'mesos-master',
   ['mesos-master', 'zookeeper', 'marathon', 'chronos'].map do |service|
     run "systemctl enable #{service}"
   end
+
+  cmd 'echo $id > /var/lib/zookeeper/myid && exec /usr/sbin/init'
 end
