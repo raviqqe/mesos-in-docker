@@ -1,3 +1,9 @@
-# - docker_image:
-#     name: ytoyama/mesos-agent
-- shell: docker pull ytoyama/mesos-agent
+- docker_image:
+    name: ytoyama/mesos-agent
+
+- docker_container:
+    name:  mesos-agent
+    image:  ytoyama/mesos-agent
+    privileged: yes
+    volumes: /sys/fs/cgroup:/sys/fs/cgroup:ro
+    network_mode: host

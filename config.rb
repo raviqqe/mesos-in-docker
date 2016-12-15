@@ -4,9 +4,9 @@ ANSIBLE_USER = 'toyama.12056'
 
 
 MASTERS = [
-  'coinfs6',
+  'srv10',
 ]
 
 AGENTS = [
-  'srv10',
+  'srv11',
 ]

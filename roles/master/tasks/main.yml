@@ -1,3 +1,15 @@
-# - docker_image:
-#     name: ytoyama/mesos-master
-- shell: docker pull ytoyama/mesos-master
+- set_fact: zk_id={{ item.0 + 1 }}
+  with_indexed_items: "{{ groups['master'] }}"
+  when: item.1 == "{{ inventory_hostname }}"
+
+- docker_image:
+    name: ytoyama/mesos-master
+
+- docker_container:
+    name: mesos-master
+    image:  ytoyama/mesos-master
+    privileged: yes
+    volumes: /sys/fs/cgroup:/sys/fs/cgroup:ro
+    network_mode: host
+    env:
+      id: "{{ zk_id }}"
