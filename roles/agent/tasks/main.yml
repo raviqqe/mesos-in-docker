@@ -1,6 +1,6 @@
 - docker_container:
-    name:  mesos-agent
-    image:  ytoyama/mesos-agent
+    name: mesos-agent
+    image: ytoyama/mesos-agent
     privileged: yes
     volumes: /sys/fs/cgroup:/sys/fs/cgroup:ro
     network_mode: host

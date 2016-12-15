@@ -4,7 +4,7 @@
 
 - docker_container:
     name: mesos-master
-    image:  ytoyama/mesos-master
+    image: ytoyama/mesos-master
     privileged: yes
     volumes: /sys/fs/cgroup:/sys/fs/cgroup:ro
     network_mode: host
