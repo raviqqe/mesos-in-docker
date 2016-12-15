@@ -1,10 +1,11 @@
 require_relative '../../lib/lib'
+require_relative '../../config'
 
 
 
 docker_tasks 'mesos-agent',
              '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host' do
-  from 'raviqqe/mesos-common'
+  from "#{USER}/mesos-common"
 
   run YUM_INSTALL, 'docker'
 
