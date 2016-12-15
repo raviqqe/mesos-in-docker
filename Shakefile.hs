@@ -8,6 +8,7 @@ import Development.Shake.Util
 
 main :: IO ()
 main = shakeArgs shakeOptions $ do
-  "setup" ~> do
-    forM_ ["common", "master", "agent"] $ \d -> do
-      unit $ cmd Shell "cd " d " && rake"
+  forM_ ["build", "push"] $ \target -> do
+    target ~> do
+      forM_ ["common", "master", "agent"] $ \d -> do
+        unit $ cmd Shell "cd" d "&& rake" target
