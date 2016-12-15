@@ -5,7 +5,7 @@ require_relative '../config'
 
 
 def docker_tasks name, run_options='', &block
-  DockerTasks.new(USER, MAINTAINER, 'ubuntu')
+  DockerTasks.new(DOCKER_USER, MAINTAINER, 'ubuntu')
       .create name, run_options, &block
 end
 

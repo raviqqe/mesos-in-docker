@@ -1,4 +1,4 @@
-USER = 'ytoyama'
+DOCKER_USER = 'ytoyama'
 MAINTAINER = 'Yota Toyama <ytoyama11@gmail.com>'
 ANSIBLE_USER = 'toyama.12056'
 

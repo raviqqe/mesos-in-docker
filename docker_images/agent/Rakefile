@@ -5,7 +5,7 @@ require_relative '../../config'
 
 docker_tasks 'mesos-agent',
              '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host' do
-  from "#{USER}/mesos-common"
+  from "#{DOCKER_USER}/mesos-common"
 
   run YUM_INSTALL, 'docker'
 
