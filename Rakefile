@@ -1,3 +1,4 @@
+require 'rake/clean'
 require_relative './config'
 
 
@@ -35,3 +36,6 @@ end
 
 
 task :default => [:push, :deploy]
+
+
+CLEAN.include '*.retry'
