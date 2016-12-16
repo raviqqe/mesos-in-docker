@@ -31,10 +31,7 @@ docker_tasks 'mesos-master' do
   # systemd
 
   run 'systemctl disable mesos-slave'
-
-  ['mesos-master', 'zookeeper', 'marathon', 'chronos'].map do |service|
-    run "systemctl enable #{service}"
-  end
+  run 'systemctl enable mesos-master zookeeper marathon chronos'
 
   cmd 'echo $id > /var/lib/zookeeper/myid && exec /usr/sbin/init'
 end
