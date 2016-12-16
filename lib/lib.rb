@@ -29,4 +29,6 @@ def ports_to_option ports
 end
 
 
-YUM_INSTALL = 'yum -y update && yum -y upgrade && yum -y install'
+def yum_install *packages
+  'yum -y update && yum -y upgrade && yum -y install ' + packages.join(' ') + ' && yum -y clean all'
+end

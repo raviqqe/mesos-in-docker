@@ -6,10 +6,22 @@ require_relative '../../config'
 docker_tasks 'mesos-master' do
   from "#{DOCKER_USER}/mesos-common"
 
-  run YUM_INSTALL, 'marathon chronos mesosphere-zookeeper'
+  env :container, :docker
+
+  run '(cd /lib/systemd/system/sysinit.target.wants && for f in *; do [ $f == systemd-tmpfiles-setup.service ] || rm -f $f; done) && \
+       rm -f /lib/systemd/system/multi-user.target.wants/* && \
+       rm -f /etc/systemd/system/*.wants/* && \
+       rm -f /lib/systemd/system/local-fs.target.wants/* && \
+       rm -f /lib/systemd/system/sockets.target.wants/*udev* && \
+       rm -f /lib/systemd/system/sockets.target.wants/*initctl* && \
+       rm -f /lib/systemd/system/basic.target.wants/* && \
+       rm -f /lib/systemd/system/anaconda.target.wants/*'
+
+  run yum_install('marathon', 'chronos', 'mesosphere-zookeeper')
 
   # mesos-master
 
+  run "echo zk://#{MASTERS.map{ |h| "#{h}:2181" }.join ','}/mesos | tee /etc/mesos/zk"
   run "echo #{MASTERS.length} > /etc/mesos-master/quorum"
 
   # zookeeper
