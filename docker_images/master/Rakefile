@@ -3,9 +3,7 @@ require_relative '../../config'
 
 
 
-docker_tasks \
-    'mesos-master',
-    '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host -e id=1' do
+docker_tasks 'mesos-master' do
   from "#{DOCKER_USER}/mesos-common"
 
   run YUM_INSTALL, 'marathon chronos mesosphere-zookeeper'
