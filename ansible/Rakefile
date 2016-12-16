@@ -1,0 +1,31 @@
+require 'rake/clean'
+require_relative '../config'
+
+
+
+TMP_DIR = 'tmp'
+
+
+def hostnames_to_ansible_lines hostnames
+  hostnames.map do |hostname|
+    "#{hostname} ansible_user=#{ANSIBLE_USER}"
+  end
+end
+
+
+task :default do
+  mkdir_p TMP_DIR
+  hosts_file = File.join TMP_DIR, 'hosts'
+
+  File.write hosts_file, [
+    '[master]',
+    *hostnames_to_ansible_lines(MASTERS),
+    '[agent]',
+    *hostnames_to_ansible_lines(AGENTS),
+  ].join("\n")
+
+  sh "ansible-playbook --ask-become-pass -i #{hosts_file} main.yml"
+end
+
+
+CLEAN.include %w(*.retry tmp)
