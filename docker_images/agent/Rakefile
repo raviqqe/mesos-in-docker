@@ -3,18 +3,10 @@ require_relative '../../config'
 
 
 
-docker_tasks 'mesos-agent',
-             '--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --net=host' do
+docker_tasks 'mesos-agent' do
   from "#{DOCKER_USER}/mesos-common"
 
-  run YUM_INSTALL, 'docker'
+  env :MESOS_MASTER, "zk://#{MASTERS.map{ |h| h + ':2181' }.join ','}/mesos"
 
-  run 'echo docker,mesos > /etc/mesos-slave/containerizers'
-  run 'echo 5mins > /etc/mesos-slave/executor_registration_timeout'
-
-  run 'systemctl disable mesos-master'
-
-  ['mesos-slave', 'docker'].map do |service|
-    run "systemctl enable #{service}"
-  end
+  cmd 'mesos-agent --no-systemd_enable_support'
 end

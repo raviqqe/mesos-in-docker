@@ -2,7 +2,17 @@
     name: mesos-agent
     image: ytoyama/mesos-agent
     privileged: yes
-    volumes: /sys/fs/cgroup:/sys/fs/cgroup:ro
     network_mode: host
+    env:
+      MESOS_SWITCH_USER: 0
+      MESOS_CONTAINERIZERS: mesos
+      MESOS_LOG_DIR: /var/log/mesos
+      MESOS_WORK_DIR: /var/tmp/mesos
+      MESOS_IMAGE_PROVIDERS: docker,appc
+      MESOS_ISOLATION: filesystem/linux,docker/runtime
+    volumes:
+      - /var/log/mesos:/var/log/mesos
+      - /var/tmp/mesos:/var/tmp/mesos
+    pid_mode: host
     recreate: yes
     pull: yes
