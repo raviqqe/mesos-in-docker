@@ -32,3 +32,6 @@ task :deploy do
 
   sh "ansible-playbook --ask-become-pass -i #{hosts_file} main.yml"
 end
+
+
+task :default => [:push, :deploy]
